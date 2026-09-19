@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Maryu | Amor y Amistad ❤️</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: {
+                            50: '#fff7f9',
+                            100: '#ffedf2',
+                            200: '#ffd6e3',
+                            300: '#ffb3c9',
+                            400: '#ff80a6',
+                            500: '#f84b7f',
+                            600: '#e31b5d',
+                        },
+                        spotifyDark: '#121212',
+                        spotifyGreen: '#1DB954',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        handwriting: ['Dancing Script', 'cursive'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff7f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffb3c9;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff80a6;
+        }
+        .glass-minimal {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 214, 227, 0.5);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #e31b5d 0%, #f84b7f 50%, #ff80a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        canvas#heartCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .spotify-card {
+            background: #121212;
+            color: #ffffff;
+            box-shadow: 0 20px 40px rgba(248, 75, 127, 0.12);
+        }
+        .spotify-progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 4px;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+        .spotify-progress-fill {
+            background: #f84b7f;
+            height: 100%;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-white via-pastelPink-50 to-pastelPink-100 text-gray-800 font-sans antialiased min-h-screen relative overflow-x-hidden selection:bg-pastelPink-200 selection:text-pastelPink-600">
+
+    <canvas id="heartCanvas"></canvas>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-4 py-10 sm:px-6 space-y-12">
+
+        <header class="text-center pt-6 pb-2 space-y-4 animate-float">
+            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/90 border border-pastelPink-200 text-pastelPink-600 text-xs font-medium tracking-wide shadow-sm">
+                <i class="fa-solid fa-sparkles text-pastelPink-400"></i>
+                <span>Especial de Amor y Amistad</span>
+                <i class="fa-solid fa-sparkles text-pastelPink-400"></i>
+            </div>
+            
+            <h1 class="text-4xl sm:text-6xl font-serif font-semibold text-gray-900 tracking-tight">
+                Para mi <span class="text-gradient font-handwriting text-5xl sm:text-7xl block sm:inline mt-1">Maryu</span>
+            </h1>
+            
+            <p class="text-gray-600 text-sm sm:text-base max-w-md mx-auto font-light leading-relaxed">
+                Tóxica de mi corazón, increíble, atenta y mi persona favorita en todo el mundo.
+            </p>
+        </header>
+
+        <section class="glass-minimal rounded-3xl p-6 sm:p-8 shadow-sm text-center relative overflow-hidden transition duration-500 hover:shadow-md">
+            <div class="space-y-1 mb-6">
+                <span class="text-[11px] uppercase tracking-widest font-semibold text-pastelPink-500">Nuestro tiempo juntos</span>
+                <h2 class="text-xl sm:text-2xl font-serif font-medium text-gray-800">
+                    Desde el 9 de Junio de 2026 a las 8:41 p.m.
+                </h2>
+                <p class="text-xs text-gray-400 italic pt-1">Cada segundo a tu lado cuenta.</p>
+            </div>
+
+            <!-- Live Counter Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4">
+                <div class="bg-white/90 p-4 rounded-2xl border border-pastelPink-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="counter-days" class="text-3xl sm:text-4xl font-bold text-gradient font-serif">0</span>
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mt-1">Días</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl border border-pastelPink-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="counter-hours" class="text-3xl sm:text-4xl font-bold text-gradient font-serif">0</span>
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mt-1">Horas</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl border border-pastelPink-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="counter-minutes" class="text-3xl sm:text-4xl font-bold text-gradient font-serif">0</span>
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mt-1">Minutos</span>
+                </div>
+                <div class="bg-white/90 p-4 rounded-2xl border border-pastelPink-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="counter-seconds" class="text-3xl sm:text-4xl font-bold text-gradient font-serif">0</span>
+                    <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mt-1">Segundos</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="spotify-card rounded-3xl p-6 sm:p-8 relative overflow-hidden transition duration-500">
+            <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                
+                <!-- Album cover art -->
+                <div class="relative group">
+                    <div id="album-cover" class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-gradient-to-br from-pastelPink-500 to-pastelPink-600 shadow-xl flex items-center justify-center relative overflow-hidden">
+                        <i class="fa-solid fa-music text-white text-4xl opacity-90 group-hover:scale-110 transition duration-300"></i>
+                        <div class="absolute inset-0 bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <i class="fa-brands fa-spotify text-white text-3xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spotify Player Controls and Info -->
+                <div class="flex-1 w-full space-y-4 text-center sm:text-left">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-pastelPink-400 flex items-center gap-1.5">
+                            <i class="fa-brands fa-spotify text-pastelPink-400 text-sm"></i> Spotify Player
+                        </span>
+                        <span class="text-[11px] text-gray-500 font-mono">song.mp3</span>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-serif font-bold text-white tracking-wide">Nuestra Canción Especial</h3>
+                        <p class="text-xs sm:text-sm text-pastelPink-300 font-medium mt-1">Luister La Voz / Omar Courtz ✨</p>
+                    </div>
+
+                    <!-- Audio Element (Audio file target) -->
+                    <audio id="audio-player" src="song.mp3" preload="metadata"></audio>
+
+                    <!-- Scrub progress bar -->
+                    <div class="space-y-1 pt-1">
+                        <div id="progress-container" class="spotify-progress-bar">
+                            <div id="progress-fill" class="spotify-progress-fill"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] text-gray-400 font-mono">
+                            <span id="current-time">0:00</span>
+                            <span id="duration-time">--:--</span>
+                        </div>
+                    </div>
+
+                    <!-- Playback Controls -->
+                    <div class="flex items-center justify-center sm:justify-start gap-5 pt-1">
+                        <button class="text-gray-400 hover:text-white transition text-xs">
+                            <i class="fa-solid fa-shuffle"></i>
+                        </button>
+                        <button class="text-gray-300 hover:text-white transition text-sm">
+                            <i class="fa-solid fa-backward-step"></i>
+                        </button>
+                        
+                        <button id="play-btn" class="w-11 h-11 rounded-full bg-pastelPink-500 hover:bg-pastelPink-400 text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition">
+                            <i id="play-icon" class="fa-solid fa-play text-base ml-0.5"></i>
+                        </button>
+
+                        <button class="text-gray-300 hover:text-white transition text-sm">
+                            <i class="fa-solid fa-forward-step"></i>
+                        </button>
+                        <button id="like-btn" class="text-gray-400 hover:text-pastelPink-400 transition text-xs">
+                            <i id="like-icon" class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-gray-800/80 text-center italic text-xs text-gray-400">
+                "Esta canción siempre me hace pensar en nosotros y en la vibra tan única que compartimos..."
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] uppercase tracking-widest font-semibold text-pastelPink-500">Capítulos de nosotros</span>
+                <h2 class="text-2xl font-serif font-semibold text-gray-900">Lo Que Más Recuerdo De Nosotros</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Moment 1 -->
+                <div class="glass-minimal rounded-2xl p-5 space-y-2 hover:-translate-y-1 transition duration-300 shadow-sm border-l-4 border-l-pastelPink-400">
+                    <div class="flex items-center justify-between">
+                        <span class="w-8 h-8 rounded-lg bg-pastelPink-100 text-pastelPink-500 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-regular fa-image"></i>
+                        </span>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pastelPink-50 text-pastelPink-600 border border-pastelPink-200">El Comienzo</span>
+                    </div>
+                    <h3 class="text-base font-serif font-bold text-gray-800">"Quería una foto tuya" 📸</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Todo empezó cuando me escribiste porque querías tener una foto mía. Un mensaje sencillo que dio inicio a la mejor conversación de mi vida.
+                    </p>
+                </div>
+
+                <!-- Moment 2 -->
+                <div class="glass-minimal rounded-2xl p-5 space-y-2 hover:-translate-y-1 transition duration-300 shadow-sm border-l-4 border-l-pastelPink-400">
+                    <div class="flex items-center justify-between">
+                        <span class="w-8 h-8 rounded-lg bg-pastelPink-100 text-pastelPink-500 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-icons"></i>
+                        </span>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pastelPink-50 text-pastelPink-600 border border-pastelPink-200">En Mi Mente</span>
+                    </div>
+                    <h3 class="text-base font-serif font-bold text-gray-800">Tus TikToks y Reels 📲</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Cuando me mandas TikToks o Reels a cualquier hora del día. Cada notificación tuya me saca una sonrisa y me hace sentir súper querido.
+                    </p>
+                </div>
+
+                <!-- Moment 3 -->
+                <div class="glass-minimal rounded-2xl p-5 space-y-2 hover:-translate-y-1 transition duration-300 shadow-sm border-l-4 border-l-pastelPink-400">
+                    <div class="flex items-center justify-between">
+                        <span class="w-8 h-8 rounded-lg bg-pastelPink-100 text-pastelPink-500 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-solid fa-compact-disc"></i>
+                        </span>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pastelPink-50 text-pastelPink-600 border border-pastelPink-200">Tu Música</span>
+                    </div>
+                    <h3 class="text-base font-serif font-bold text-gray-800">Mostrándome tu música 🎶</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Amo cuando te pones a enseñarme los temas que escuchas, desde Luister La Voz hasta Omar Courtz. Contagias una vibra genial.
+                    </p>
+                </div>
+
+                <!-- Moment 4 -->
+                <div class="glass-minimal rounded-2xl p-5 space-y-2 hover:-translate-y-1 transition duration-300 shadow-sm border-l-4 border-l-pastelPink-400">
+                    <div class="flex items-center justify-between">
+                        <span class="w-8 h-8 rounded-lg bg-pastelPink-100 text-pastelPink-500 flex items-center justify-center font-bold text-sm">
+                            <i class="fa-regular fa-face-laugh-beam"></i>
+                        </span>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-pastelPink-50 text-pastelPink-600 border border-pastelPink-200">Cosas Cotidianas</span>
+                    </div>
+                    <h3 class="text-base font-serif font-bold text-gray-800">Nuestras quejas de la vida 💬</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Esos ratos interminables donde nos ponemos a quejarnos de las cosas cotidianas y del día a día. Con ninguna otra persona me río tanto.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="glass-minimal rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] uppercase tracking-widest font-semibold text-pastelPink-500">Razones para quererte</span>
+                <h2 class="text-2xl font-serif font-bold text-gray-900">Lo Que Más Me Encanta De Ti</h2>
+            </div>
+
+            <div class="space-y-2.5">
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">1</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Siempre tienes algo interesante para contar</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Contigo el tiempo vuela porque nunca faltan tus historias y tus conversaciones.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">2</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Me tratas todo lindo</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Esa ternura que tienes conmigo hace que me derrita por dentro cada día.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">3</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Nuestras charlas quejándonos de la vida cotidiana</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Risa garantizada 100% cada vez que nos ponemos a hablar de lo que pasa en el día.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">4</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Cuando me muestras tu música</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Esa energía única que pones cuando escuchamos Luister La Voz o Omar Courtz.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">5</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Cuando me mandas TikToks o Reels</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Ver que te acuerdas de mí y me mandas cositas a cualquier hora me hace sentir demasiado querido.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">6</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Tus fotos donde sales superhermosa</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Cada foto que me envías me deja totalmente deslumbrado, no hay nadie más linda que tú.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 border border-pastelPink-100 shadow-xs">
+                    <span class="w-7 h-7 rounded-full bg-pastelPink-400 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs shadow-xs">7</span>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm">Tus celos de tóxica consentida</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">Porque incluso tu lado tóxico me resulta irresistible y único jajaja.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center bg-gradient-to-r from-pastelPink-100 via-white to-pastelPink-100 p-6 rounded-3xl border border-pastelPink-200 shadow-xs space-y-3">
+            <h3 class="text-lg font-serif font-semibold text-gray-800">¿Un abrazo virtual?</h3>
+            <p class="text-xs text-gray-500">Toca el corazón para enviarme un abrazo instantáneo ✨</p>
+            
+            <button id="heart-pulse-btn" class="w-16 h-16 rounded-full bg-white border border-pastelPink-300 text-pastelPink-500 text-2xl shadow-md hover:scale-110 active:scale-95 transition flex items-center justify-center mx-auto group">
+                <i class="fa-solid fa-heart group-hover:animate-ping"></i>
+            </button>
+            <p id="heart-count-label" class="text-[11px] font-semibold text-pastelPink-600">Has enviado <span id="heart-count">0</span> abrazos virtuales hoy ❤️</p>
+        </section>
+
+        <footer class="text-center pt-6 pb-10 space-y-6">
+            <div class="w-12 h-0.5 bg-pastelPink-300 mx-auto rounded-full"></div>
+            
+            <p class="text-xs sm:text-sm text-gray-500 font-light italic max-w-md mx-auto">
+                "Gracias por ser mi Maryu, mi tóxica favorita, la que me alegra los días y la persona más linda de mi vida."
+            </p>
+
+            <div class="pt-2">
+                <span class="text-[10px] uppercase tracking-widest text-pastelPink-500 font-semibold block mb-1">Feliz Día de Amor y Amistad</span>
+                <h2 class="text-6xl sm:text-8xl font-serif font-bold text-gradient font-handwriting py-1">
+                    Te amo
+                </h2>
+                <p class="text-[10px] text-gray-400 mt-2">Hecho con todo el amor del mundo solo para ti, Maryu 💖</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const daysEl = document.getElementById('counter-days');
+        const hoursEl = document.getElementById('counter-hours');
+        const minutesEl = document.getElementById('counter-minutes');
+        const secondsEl = document.getElementById('counter-seconds');
+
+        function updateCounter() {
+            // Target start date: June 9, 2026 at 8:41 PM (20:41)
+            const startDate = new Date(2026, 5, 9, 20, 41, 0); 
+            const now = new Date();
+
+            let diff = now - startDate;
+            if (diff < 0) diff = 0;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            daysEl.textContent = days;
+            hoursEl.textContent = hours;
+            minutesEl.textContent = minutes;
+            secondsEl.textContent = seconds;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progressFill = document.getElementById('progress-fill');
+        const progressContainer = document.getElementById('progress-container');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationTimeEl = document.getElementById('duration-time');
+        const likeBtn = document.getElementById('like-btn');
+        const likeIcon = document.getElementById('like-icon');
+
+        let isPlaying = false;
+
+        function formatTime(secs) {
+            if (isNaN(secs)) return '0:00';
+            const mins = Math.floor(secs / 60);
+            const remainingSecs = Math.floor(secs % 60);
+            return `${mins}:${remainingSecs < 10 ? '0' : ''}${remainingSecs}`;
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.className = 'fa-solid fa-play text-base ml-0.5';
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    playIcon.className = 'fa-solid fa-pause text-base';
+                    isPlaying = true;
+                }).catch(() => {
+                    // Fallback visual feedback if song.mp3 is not yet uploaded on repo
+                    isPlaying = true;
+                    playIcon.className = 'fa-solid fa-pause text-base';
+                });
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = `${percent}%`;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            if (audio.duration) {
+                audio.currentTime = (clickX / width) * audio.duration;
+            }
+        });
+
+        likeBtn.addEventListener('click', () => {
+            if (likeIcon.classList.contains('fa-regular')) {
+                likeIcon.className = 'fa-solid fa-heart text-pastelPink-400';
+            } else {
+                likeIcon.className = 'fa-regular fa-heart';
+            }
+        });
+
+        let heartCount = 0;
+        const heartBtn = document.getElementById('heart-pulse-btn');
+        const heartCountLabel = document.getElementById('heart-count');
+
+        heartBtn.addEventListener('click', () => {
+            heartCount++;
+            heartCountLabel.textContent = heartCount;
+            createFloatingHeart(heartBtn);
+        });
+
+        function createFloatingHeart(element) {
+            const heart = document.createElement('i');
+            heart.className = 'fa-solid fa-heart text-pastelPink-400 absolute text-lg pointer-events-none transition-all duration-1000 ease-out';
+            
+            const rect = element.getBoundingClientRect();
+            heart.style.left = `${rect.left + rect.width / 2}px`;
+            heart.style.top = `${rect.top}px`;
+            heart.style.zIndex = '100';
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = `translate(${(Math.random() - 0.5) * 80}px, -90px) scale(1.4)`;
+                heart.style.opacity = '0';
+            }, 20);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        }
+
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        let hearts = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class ParticleHeart {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.size = Math.random() * 10 + 6;
+                this.speedY = Math.random() * 1.0 + 0.4;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.opacity = Math.random() * 0.4 + 0.15;
+                this.color = '#ff80a6';
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                const d = this.size;
+                ctx.moveTo(this.x, this.y);
+                ctx.bezierCurveTo(this.x - d / 2, this.y - d / 2, this.x - d, this.y + d / 3, this.x, this.y + d);
+                ctx.bezierCurveTo(this.x + d, this.y + d / 3, this.x + d / 2, this.y - d / 2, this.x, this.y);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 20; i++) {
+            hearts.push(new ParticleHeart());
+        }
+
+        function animateHearts() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateHearts);
+        }
+
+        animateHearts();
+    </script>
+</body>
+</html>
